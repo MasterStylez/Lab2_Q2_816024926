@@ -36,6 +36,8 @@ static const char *TAG = "main";
 #define GPIO_OUTPUT_PIN_SEL (1ULL<<GPIO_OUTPUT_IO_0)
 #define GPIO_INPUT_IO_0     0
 #define GPIO_INPUT_PIN_SEL  (1ULL<<GPIO_INPUT_IO_0)
+#define configUSE_PREEMPTION    1   
+#define configUSE_TIME_SLICING  1
 
 static SemaphoreHandle_t mutex = NULL;
 
@@ -68,7 +70,7 @@ static void gpio_task_example1(void *arg)
     
         else
         {
-            printf("Task1 Failed to take Mutex \n");
+            //printf("Task1 Failed to take Mutex \n");
         }
     }
 }
@@ -89,7 +91,7 @@ static void gpio_task_example2(void *arg)
         }
         else
         {
-        printf("Task2 Failed to take Mutex \n");
+            //printf("Task2 Failed to take Mutex \n");
         }
     }    
 }
@@ -108,7 +110,7 @@ static void gpio_task_example3(void *arg)
         }
         else
         {
-            printf("Task3 Failed to take Mutex \n");
+            //printf("Task3 Failed to take Mutex \n");
         }
     }
 }
@@ -130,9 +132,9 @@ void app_main(void)
     gpio_config(&io_conf);
     mutex = xSemaphoreCreateMutex();
     
-    xTaskCreate(gpio_task_example1, "gpio_task_example1", 2048, NULL, 8, NULL);
+    xTaskCreate(gpio_task_example1, "gpio_task_example1", 2048, NULL, 9, NULL);
     xTaskCreate(gpio_task_example2, "gpio_task_example2", 2048, NULL, 9, NULL);
-    xTaskCreate(gpio_task_example3, "gpio_task_example3", 2048, NULL, 10, NULL);
+    xTaskCreate(gpio_task_example3, "gpio_task_example3", 2048, NULL, 9, NULL);
 }
 
 
